@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 //component
 import WorkoutDetails from "../components/WorkoutDetails";
+import WorkoutFrom from "../components/WorkoutFrom";
 
 //[] array means it only fires onces
 export default function Home() {
@@ -32,6 +33,8 @@ export default function Home() {
             ></WorkoutDetails>
           ))}
       </div>
+
+      <WorkoutFrom />
     </div>
   );
 }
