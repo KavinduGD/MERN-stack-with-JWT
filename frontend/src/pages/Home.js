@@ -1,40 +1,37 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContexts";
 
-//component
+// components
 import WorkoutDetails from "../components/WorkoutDetails";
-import WorkoutFrom from "../components/WorkoutFrom";
+import WorkoutForm from "../components/WorkoutFrom";
 
-//[] array means it only fires onces
-export default function Home() {
-  const [workouts, setWorkouts] = useState(null);
+const Home = () => {
+  const { workouts, dispatch } = useWorkoutsContext();
 
   useEffect(() => {
-    const fetchWorkout = async () => {
-      //responcse object eka enw
+    const fetchWorkouts = async () => {
       const response = await fetch("/api/workouts");
-      //onject eka json data knw(now we have array of objects)
       const json = await response.json();
 
       if (response.ok) {
-        setWorkouts(json);
+        dispatch({ type: "SET_WORKOUTS", payload: json });
       }
     };
-    fetchWorkout();
-  }, []);
+
+    fetchWorkouts();
+  }, [dispatch]);
 
   return (
     <div className="home">
       <div className="workouts">
         {workouts &&
           workouts.map((workout) => (
-            <WorkoutDetails
-              key={workout._id}
-              workout={workout}
-            ></WorkoutDetails>
+            <WorkoutDetails workout={workout} key={workout._id} />
           ))}
       </div>
-
-      <WorkoutFrom />
+      <WorkoutForm />
     </div>
   );
-}
+};
+
+export default Home;
