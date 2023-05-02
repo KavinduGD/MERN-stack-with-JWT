@@ -7,7 +7,7 @@ export default function WorkoutFrom() {
   const [loads, setLoads] = useState("");
   const [reps, setReps] = useState("");
   const [error, setError] = useState(null);
-
+  const [emptyFields, setEmptyFields] = useState([]);
   const hundleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,12 +27,14 @@ export default function WorkoutFrom() {
     if (!response.ok) {
       //oya error property eka enne backend eken
       setError(json.error);
+      setEmptyFields(json.emptyFields);
     }
     if (response.ok) {
       setTitle("");
       setLoads("");
       setReps("");
       setError(null);
+      setEmptyFields([]);
       console.log("new workout added", json);
       dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
@@ -46,6 +48,7 @@ export default function WorkoutFrom() {
         type="text"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
+        className={emptyFields.includes("title") ? "error" : ""}
       />
 
       <lable>Load (in kg): </lable>
@@ -53,6 +56,7 @@ export default function WorkoutFrom() {
         type="number"
         onChange={(e) => setLoads(e.target.value)}
         value={loads}
+        className={emptyFields.includes("loads") ? "error" : ""}
       />
 
       <lable>Reps: </lable>
@@ -60,6 +64,7 @@ export default function WorkoutFrom() {
         type="number"
         onChange={(e) => setReps(e.target.value)}
         value={reps}
+        className={emptyFields.includes("reps") ? "error" : ""}
       />
       <button>Add Workout</button>
 
