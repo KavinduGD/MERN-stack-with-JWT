@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContexts";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function WorkoutFrom() {
   const { dispatch } = useWorkoutsContext();
+  const { user } = useAuthContext();
+
   const [title, setTitle] = useState("");
   const [loads, setLoads] = useState("");
   const [reps, setReps] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+
   const hundleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
     const workout = { title, reps, loads };
 
     const response = await fetch("/api/workouts", {
@@ -19,6 +27,7 @@ export default function WorkoutFrom() {
       body: JSON.stringify(workout),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
     });
 
