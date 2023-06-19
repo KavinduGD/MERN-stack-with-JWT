@@ -31,7 +31,7 @@ const Home = () => {
     if (user) {
       fetchWorkouts();
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <div className="home">
