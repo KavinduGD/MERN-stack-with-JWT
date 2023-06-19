@@ -21,15 +21,18 @@ export default function WorkoutFrom() {
     }
     const workout = { title, reps, loads };
 
-    const response = await fetch("/api/workouts", {
-      method: "POST",
-      //json data valata convert karanawa object eka
-      body: JSON.stringify(workout),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      "https://workout-buddy-k54o.onrender.com/api/workouts",
+      {
+        method: "POST",
+        //json data valata convert karanawa object eka
+        body: JSON.stringify(workout),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     const json = await response.json();
 
