@@ -4,12 +4,14 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const workoutRoutes = require("./routes/workoutRoutes");
 const userRoutes = require("./routes/userRoutes");
+const cors = require("cors");
 //express app
 const app = express();
 
 //middleware
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cors());
 
 //routes
 app.use("/api/workouts", workoutRoutes);
